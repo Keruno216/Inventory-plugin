@@ -1,0 +1,28 @@
+# Unreal Engine generated folders
+Binaries/
+DerivedDataCache/
+Intermediate/
+Saved/
+.vs/
+.vscode/
+
+# Build output
+*.pdb
+*.exe
+*.dll
+*.lib
+*.obj
+*.pch
+
+# Backup & autosaves
+*.autosave
+*.backup
+
+# MacOS / Thumbs / System files
+.DS_Store
+ehthumbs.db
+Thumbs.db
+
+# UE5 LFS tracking for large assets
+*.uasset filter=lfs diff=lfs merge=lfs -text
+*.umap filter=lfs diff=lfs merge=lfs -text
