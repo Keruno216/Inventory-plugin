@@ -5,6 +5,7 @@
 
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "Interaction/Inv_Highlightable.h"
 #include "Kismet/GameplayStatics.h"
 #include "Widgets/HUD/Inv_HUDWidget.h"
 #include "Items/Components//Inv_ItemComponent.h"
@@ -107,6 +108,12 @@ void AInv_PlayerController::TraceForItem()
 
 	if (CurrentActor.IsValid())
 	{
+		if (UActorComponent* Highlightable = CurrentActor->FindComponentByInterface(UInv_Highlightable::StaticClass());
+			IsValid(Highlightable))
+		{
+			IInv_Highlightable::Execute_Highlight(Highlightable);
+		}
+
 		UInv_ItemComponent* ItemComponent = CurrentActor->FindComponentByClass<UInv_ItemComponent>();
 		if (!IsValid(ItemComponent))
 		{
@@ -119,5 +126,12 @@ void AInv_PlayerController::TraceForItem()
 		}
 	}
 
-	if (PreviousActor.IsValid()) UE_LOG(LogTemp, Warning, TEXT("Stopped tracing previous Actor!"))
+	if (PreviousActor.IsValid())
+	{
+		if (UActorComponent* Highlightable = PreviousActor->FindComponentByInterface(UInv_Highlightable::StaticClass());
+			IsValid(Highlightable))
+		{
+			IInv_Highlightable::Execute_UnHighlight(Highlightable);
+		}
+	}
 }
