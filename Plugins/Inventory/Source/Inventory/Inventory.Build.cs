@@ -27,7 +27,7 @@ public class Inventory : ModuleRules
 		PublicDependencyModuleNames.AddRange(
 			new[]
 			{
-				"Core"
+				"Core", "UMG"
 				// ... add other public dependencies that you statically link with here ...
 			}
 		);
