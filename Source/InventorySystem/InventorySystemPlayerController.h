@@ -17,9 +17,8 @@ UCLASS(abstract)
 class AInventorySystemPlayerController : public APlayerController
 {
 	GENERATED_BODY()
-	
-protected:
 
+protected:
 	/** Input Mapping Contexts */
 	UPROPERTY(EditAnywhere, Category ="Input|Input Mappings")
 	TArray<UInputMappingContext*> DefaultMappingContexts;
@@ -40,5 +39,4 @@ protected:
 
 	/** Input mapping context setup */
 	virtual void SetupInputComponent() override;
-
 };

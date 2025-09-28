@@ -3,6 +3,6 @@
 #include "InventorySystem.h"
 #include "Modules/ModuleManager.h"
 
-IMPLEMENT_PRIMARY_GAME_MODULE( FDefaultGameModuleImpl, InventorySystem, "InventorySystem" );
+IMPLEMENT_PRIMARY_GAME_MODULE(FDefaultGameModuleImpl, InventorySystem, "InventorySystem");
 
 DEFINE_LOG_CATEGORY(LogInventorySystem)

@@ -8,7 +8,8 @@ public class InventorySystem : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
-		PublicDependencyModuleNames.AddRange(new string[] {
+		PublicDependencyModuleNames.AddRange(new[]
+		{
 			"Core",
 			"CoreUObject",
 			"Engine",
@@ -23,7 +24,8 @@ public class InventorySystem : ModuleRules
 
 		PrivateDependencyModuleNames.AddRange(new string[] { });
 
-		PublicIncludePaths.AddRange(new string[] {
+		PublicIncludePaths.AddRange(new[]
+		{
 			"InventorySystem",
 			"InventorySystem/Variant_Platforming",
 			"InventorySystem/Variant_Platforming/Animation",

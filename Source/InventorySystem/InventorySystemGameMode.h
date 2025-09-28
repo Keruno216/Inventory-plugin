@@ -15,10 +15,6 @@ class AInventorySystemGameMode : public AGameModeBase
 	GENERATED_BODY()
 
 public:
-	
 	/** Constructor */
 	AInventorySystemGameMode();
 };
-
-
-
