@@ -2,5 +2,6 @@
 
 namespace FragmentTags
 {
-	UE_DECLARE_GAMEPLAY_TAG_EXTERN(GridFragment)
+	UE_DEFINE_GAMEPLAY_TAG(GridFragment, "FragmentTags.GridFragment")
+	UE_DEFINE_GAMEPLAY_TAG(IconFragment, "FragmentTags.IconFragment")
 }
