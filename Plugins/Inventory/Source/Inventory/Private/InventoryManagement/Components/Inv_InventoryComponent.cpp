@@ -19,7 +19,25 @@ void UInv_InventoryComponent::TryAddItem(UInv_ItemComponent* ItemComponent)
 		return;
 	}
 
-	// TODO: Actually add the item to the inventory ;D
+	if (Result.Item.IsValid() && Result.bStackable)
+	{
+		Server_AddStacksToItem(ItemComponent, Result.TotalRoomToFill, Result.Remainder);
+		// Add stacks to an item that already exists in the inventory. Only update the stack count, and do not create a new item of this tiype
+	}
+	else if (Result.TotalRoomToFill > 0)
+	{
+		Server_AddNewItem(ItemComponent, Result.bStackable ? Result.TotalRoomToFill : 0);
+		// This item type doesn't exist in the inventory. Create a new one and update all pertinent slots
+	}
+}
+
+void UInv_InventoryComponent::Server_AddNewItem_Implementation(UInv_ItemComponent* ItemComponent, int32 StackCount)
+{
+}
+
+void UInv_InventoryComponent::Server_AddStacksToItem_Implementation(UInv_ItemComponent* ItemComponent, int32 StackCount,
+                                                                    int32 Remainder)
+{
 }
 
 void UInv_InventoryComponent::ToggleInventoryMenu()
