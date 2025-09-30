@@ -9,6 +9,19 @@ UInv_InventoryComponent::UInv_InventoryComponent()
 	PrimaryComponentTick.bCanEverTick = false;
 }
 
+void UInv_InventoryComponent::TryAddItem(UInv_ItemComponent* ItemComponent)
+{
+	FInv_SlotAvailabilityResult Result = InventoryMenu->HasRoomForItem(ItemComponent);
+
+	if (Result.TotalRoomToFill == 0)
+	{
+		NoRoomInInventory.Broadcast();
+		return;
+	}
+
+	// TODO: Actually add the item to the inventory ;D
+}
+
 void UInv_InventoryComponent::ToggleInventoryMenu()
 {
 	if (bInventoryMenuOpen)
