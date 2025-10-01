@@ -54,6 +54,7 @@ private:
 	                                    const int32 Index);
 	void AddSlottedItemToCanvas(int32 Index, const FInv_GridFragment* GridFragment,
 	                            UInv_SlottedItem* SlottedItem) const;
+	void UpdateGridSlots(UInv_InventoryItem* NewItem, const int32 Index);
 
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Inventory")
