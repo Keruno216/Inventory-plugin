@@ -4,6 +4,7 @@
 #include "Widgets/Inventory/Spatial/Inv_InventoryGrid.h"
 
 #include "Blueprint/WidgetLayoutLibrary.h"
+#include "Commandlets/GatherTextCommandlet.h"
 #include "Components/CanvasPanel.h"
 #include "Components/CanvasPanelSlot.h"
 #include "InventoryManagement/Components/Inv_InventoryComponent.h"
@@ -37,22 +38,29 @@ FInv_SlotAvailabilityResult UInv_InventoryGrid::HasRoomForItem(const UInv_Invent
 	return HasRoomForItem(Item->GetItemManifest());
 }
 
-FInv_SlotAvailabilityResult UInv_InventoryGrid::HasRoomForItem(const FInv_ItemManifest& ItemManifest)
+FInv_SlotAvailabilityResult UInv_InventoryGrid::HasRoomForItem(const FInv_ItemManifest& Manifest)
 {
 	FInv_SlotAvailabilityResult Result;
-	Result.TotalRoomToFill = 7;
-	Result.bStackable = true;
 
-	FInv_SlotAvailability SlotAvailability;
-	SlotAvailability.AmountToFill = 2;
-	SlotAvailability.Index = 0;
-	Result.SlotAvailabilities.Add(SlotAvailability);
+	// Determine if the item is stackable.
+	const FInv_StackableFragment* StackableFragment = Manifest.GetFragmentOfType<FInv_StackableFragment>();
+	Result.bStackable = StackableFragment != nullptr;
 
-
-	FInv_SlotAvailability SlotAvailability2;
-	SlotAvailability2.AmountToFill = 5;
-	SlotAvailability2.Index = 1;
-	Result.SlotAvailabilities.Add(SlotAvailability2);
+	// Determine how many stacks to add.
+	// For each Grid Slot:
+	// If we don't have anymore to fill, break out of the loop early.
+	// Is this index claimed yet?
+	// Can the item fit here? (i.e. is it out of grid bounds?)
+	// Is there room at this index? (i.e. are there other items in the way?)
+	// Check any other important conditions - ForEach2D over a 2D range
+	// Index claimed?
+	// Has valid item?
+	// Is this item the same type as the item we're trying to add?
+	// If so, is this a stackable item?
+	// If stackable, is this slot at the max stack size already?
+	// How much to fill?
+	// Update the amount left to fill
+	// How much is the Remainder?
 
 
 	return Result;
