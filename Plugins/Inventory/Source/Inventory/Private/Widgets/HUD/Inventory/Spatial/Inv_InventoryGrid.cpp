@@ -77,11 +77,7 @@ FInv_SlotAvailabilityResult UInv_InventoryGrid::HasRoomForItem(const FInv_ItemMa
 
 
 		// Check any other important conditions - ForEach2D over a 2D range
-		// Index claimed?
-		// Has valid item?
-		// Is this item the same type as the item we're trying to add?
-		// If so, is this a stackable item?
-		// If stackable, is this slot at the max stack size already?
+
 		// How much to fill?
 		// Update the amount left to fill
 	}
@@ -213,7 +209,7 @@ bool UInv_InventoryGrid::HasRoomAtIndex(const UInv_GridSlot* GridSlot,
 	UInv_InventoryStatics::ForEach2D(GridSlots, GridSlot->GetIndex(), Dimensions, Columns,
 	                                 [&](const UInv_GridSlot* SubGridSlot)
 	                                 {
-		                                 if (CheckSlotConstraints(SubGridSlot))
+		                                 if (CheckSlotConstraints(SubGridSlot, CheckedIndices, OutTentativelyClaimed))
 		                                 {
 			                                 OutTentativelyClaimed.Add(SubGridSlot->GetIndex());
 		                                 }
@@ -232,9 +228,32 @@ FIntPoint UInv_InventoryGrid::GetItemDimensions(const FInv_ItemManifest& Manifes
 	return GridFragment ? GridFragment->GetGridSize() : FIntPoint(1, 1);
 }
 
-bool UInv_InventoryGrid::CheckSlotConstraints(const UInv_GridSlot* SubGridSlot) const
+bool UInv_InventoryGrid::CheckSlotConstraints(const UInv_GridSlot* SubGridSlot,
+                                              const TSet<int32>& CheckedIndices,
+                                              TSet<int32>& OutTentativelyClaimed) const
 {
+	// Index claimed?
+	if (IsIndexClaimed(CheckedIndices, SubGridSlot->GetIndex()))
+	{
+		return false;
+	}
+
+	// Has valid item?
+	if (!HasValidItem(SubGridSlot))
+	{
+		OutTentativelyClaimed.Add(SubGridSlot->GetIndex());
+		return true;
+	}
+
+	// Is this item the same type as the item we're trying to add?
+	// If so, is this a stackable item?
+	// If stackable, is this slot at the max stack size already?
 	return false;
+}
+
+bool UInv_InventoryGrid::HasValidItem(const UInv_GridSlot* GridSlot) const
+{
+	return GridSlot->GetInventoryItem().IsValid();
 }
 
 void UInv_InventoryGrid::ConstructGrid()
