@@ -17,6 +17,7 @@ class UCanvasPanel;
 class UInv_GridSlot;
 class UInv_InventoryComponent;
 struct FGameplayTag;
+class UInv_InventoryItem;
 
 /**
  * 
