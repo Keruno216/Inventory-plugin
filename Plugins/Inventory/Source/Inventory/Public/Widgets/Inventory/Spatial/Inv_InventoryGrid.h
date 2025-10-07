@@ -79,6 +79,10 @@ private:
 	                                 const UInv_GridSlot* GridSlot) const;
 	int32 GetStackAmount(const UInv_GridSlot* GridSlot) const;
 
+	UFUNCTION()
+	void AddStacks(const FInv_SlotAvailabilityResult& Result);
+
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Inventory")
 	EInv_ItemCategory ItemCategory;
 
