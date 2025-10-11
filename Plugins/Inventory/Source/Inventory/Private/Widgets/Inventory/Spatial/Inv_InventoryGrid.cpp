@@ -63,6 +63,8 @@ void UInv_InventoryGrid::OnTileParametersUpdated(const FInv_TileParameters& Para
 	}
 
 	// Get Hover Item's dimensions
+	const FIntPoint Dimensions = HoverItem->GetGridDimensions();
+
 	// Calculate the starting coordinates for highlighting
 	// Check hover position
 	// Are the dimensions within the  grid bounds?
