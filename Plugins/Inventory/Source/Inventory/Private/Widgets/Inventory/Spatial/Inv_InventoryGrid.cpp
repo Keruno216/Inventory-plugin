@@ -52,6 +52,22 @@ void UInv_InventoryGrid::UpdateTileParameters(const FVector2D& CanvasPosition, c
 	TileParameters.TileQuadrant = CalculateTileQuadrant(CanvasPosition, MousePosition);
 
 	// Handle highlight / unlighlight of the GridSlots
+	OnTileParametersUpdated(TileParameters);
+}
+
+void UInv_InventoryGrid::OnTileParametersUpdated(const FInv_TileParameters& Parameters)
+{
+	if (!IsValid(HoverItem))
+	{
+		return;
+	}
+
+	// Get Hover Item's dimensions
+	// Calculate the starting coordinates for highlighting
+	// Check hover position
+	// Are the dimensions within the  grid bounds?
+	// Check if there are Items in the way
+	// If there are items in the way, is it just one? (Can we swap those?)
 }
 
 FIntPoint UInv_InventoryGrid::CalculateHoveredCoordinated(const FVector2D& CanvasPosition, const FVector2D& MousePosition) const
@@ -459,7 +475,7 @@ void UInv_InventoryGrid::AssignHoverItem(UInv_InventoryItem* InventoryItem)
 	const FVector2D DrawSize = GetDrawSize(GridFragment);
 
 	FSlateBrush IconBrush;
-	IconBrush.SetResourceObject((ImageFragment->GetIcon()));
+	IconBrush.SetResourceObject(ImageFragment->GetIcon());
 	IconBrush.DrawAs = ESlateBrushDrawType::Image;
 	IconBrush.ImageSize = DrawSize * UWidgetLayoutLibrary::GetViewportScale(this);
 

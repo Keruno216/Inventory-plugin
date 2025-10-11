@@ -8,6 +8,7 @@
 
 #include "Inv_InventoryGrid.generated.h"
 
+struct FPointerEvent;
 class UInv_HoverItem;
 struct FInv_ImageFragment;
 struct FInv_GridFragment;
@@ -90,6 +91,8 @@ private:
 	void UpdateTileParameters(const FVector2D& CanvasPosition, const FVector2D& MousePosition);
 	FIntPoint CalculateHoveredCoordinated(const FVector2D& CanvasPosition, const FVector2D& MousePosition) const;
 	EInv_TileQuadrant CalculateTileQuadrant(const FVector2D& CanvasPosition, const FVector2D& MousePosition) const;
+	void OnTileParametersUpdated(const FInv_TileParameters& Parameters);
+
 
 	UFUNCTION()
 	void AddStacks(const FInv_SlotAvailabilityResult& Result);
