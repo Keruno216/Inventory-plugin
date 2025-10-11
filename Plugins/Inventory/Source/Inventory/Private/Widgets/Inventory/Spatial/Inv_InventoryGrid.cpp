@@ -40,10 +40,25 @@ void UInv_InventoryGrid::NativeTick(const FGeometry& MyGeometry, float InDeltaTi
 	UpdateTileParameters(CanvasPos, MousePos);
 }
 
-void UInv_InventoryGrid::UpdateTileParameters(const FVector2D&, const FVector2D& MousePosition)
+void UInv_InventoryGrid::UpdateTileParameters(const FVector2D& CanvasPosition, const FVector2D& MousePosition)
 {
+	// If mouse not in canvas panel, return.
 	// Calculate the tile quadrant
+	const FIntPoint HoveredTileCoordinates = CalculateHoveredCoordinated(CanvasPosition, MousePosition);
+	LastTileParameters = TileParameters;
+	TileParameters.TileCoordinates = HoveredTileCoordinates;
+	TileParameters.TileIndex = UInv_WidgetUtils::GetIndexFromPosition(HoveredTileCoordinates, Columns);
+
 	// Handle highlight / unlighlight of the GridSlots
+}
+
+FIntPoint UInv_InventoryGrid::CalculateHoveredCoordinated(const FVector2D& CanvasPosition, const FVector2D& MousePosition) const
+{
+	return FIntPoint
+	{
+		static_cast<int32>(FMath::FloorToInt((MousePosition.X - CanvasPosition.X) / TileSize)),
+		static_cast<int32>(FMath::FloorToInt((MousePosition.Y - CanvasPosition.Y) / TileSize))
+	};
 }
 
 FInv_SlotAvailabilityResult UInv_InventoryGrid::HasRoomForItem(const UInv_ItemComponent* ItemComponent)
