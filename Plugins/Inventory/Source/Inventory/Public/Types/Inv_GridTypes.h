@@ -78,3 +78,18 @@ inline bool operator==(const FInv_TileParameters& A, const FInv_TileParameters& 
 {
 	return A.TileCoordinates == B.TileCoordinates && A.TileIndex == B.TileIndex && A.TileQuadrant == B.TileQuadrant;
 }
+
+USTRUCT()
+struct FInv_SpaceQueryResult
+{
+	GENERATED_BODY()
+
+	// True, if the space queried has no items in it
+	bool bHasSpace{false};
+
+	// Valid, if there's a single Item we can swap with
+	TWeakObjectPtr<UInv_InventoryItem> ValidItem = nullptr;
+
+	// Index where an Item would be placed, if we click on the Grid at a valid location
+	int32 UpperLeftIndex{INDEX_NONE};
+};
