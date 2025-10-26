@@ -723,7 +723,15 @@ void UInv_InventoryGrid::OnSlottedItemClicked(int32 GridIndex, const FPointerEve
 	if (!IsValid(HoverItem) && IsLeftClick(MouseEvent))
 	{
 		PickUp(ClickedInventoryItem, GridIndex);
+		return;
 	}
+
+	// Do the Hovered Item and Clicked Inventory Item share a type, and are they stackable?
+	// Should we swap their Stack Counts?
+	// Should we consume the Hover Item's Stacks?
+	// Should we fill in the Stacks of the clicked Item? (And not consume the Hover Item?
+	// Is there no room in the clicked Slot?
+	// Swap with the Hover Item.
 }
 
 
