@@ -20,6 +20,7 @@
 #include "Widgets/Inventory/HoverItem/Inv_HoverItem.h"
 #include "Widgets/Inventory/SlottedItems/Inv_SlottedItem.h"
 #include "Inventory.h"
+#include "Inv_InventoryGrid.h"
 
 void UInv_InventoryGrid::NativeOnInitialized()
 {
@@ -714,7 +715,19 @@ void UInv_InventoryGrid::OnSlottedItemClicked(int32 GridIndex, const FPointerEve
 	// Do the Hovered Item and Clicked Inventory Item share a type, and are they stackable?
 	if (IsSameStackable(ClickedInventoryItem))
 	{
-		// Should we swap their Stack Counts?
+		const int32 ClickedStackCount = GridSlots[GridIndex]->GetStackCount();
+		const FInv_StackableFragment *StackableFragment = ClickedInventoryItem->GetItemManifest().GetFragmentOfType<FIInv_StackableFragment>();
+		const int32 MaxStackSize = StackableFragment->GetMaxStackSize();
+		const int32 RoomInClickedSlot = MaxStackSize - ClickedStackCount;
+		const int32 HoveredStackCount = HoverItem->GetStackCount();
+
+		// Should we swap their Stack Counts? (Room in the clicked slot == 0 && HoveredStackCount < MaxStackSize)
+		if (ShouldSwapStackCounts(RoomInClickedSlot, HoveredStackCount, MaxStackSize))
+		{
+			// TODO: Swap Stack Counts
+			return;
+		}
+
 		// Should we consume the Hover Item's Stacks?
 		// Should we fill in the Stacks of the clicked Item? (And not consume the Hover Item?
 		// Is there no room in the clicked Slot?
@@ -852,6 +865,10 @@ void UInv_InventoryGrid::SwapWithHoverItem(UInv_InventoryItem *ClickedInventoryI
 	UpdateGridSlots(TempInventoryItem, ItemDropIndex, bTempIsStackable, TeampStackCount);
 }
 
+bool UInv_InventoryGrid::ShouldSwapStackCounts(const int32 RoomInClickedSlot, const int32 HoveredStackCount, const int32 MaxStackSize) const
+{
+	return RoomInClickedSlot == 0 && HoveredStackCount < MaxStackSize;
+}
 void UInv_InventoryGrid::ShowCursor()
 {
 	if (!IsValid(GetOwningPlayer()))
