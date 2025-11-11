@@ -19,7 +19,7 @@
 #include "Items/Manifest/Inv_ItemManifest.h"
 #include "Widgets/Inventory/HoverItem/Inv_HoverItem.h"
 #include "Widgets/Inventory/SlottedItems/Inv_SlottedItem.h"
-#include "Inv_InventoryGrid.h"
+#include "Widgets/Inventory/Spatial/Inv_InventoryGrid.h"
 
 void UInv_InventoryGrid::NativeOnInitialized()
 {
