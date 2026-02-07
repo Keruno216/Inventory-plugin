@@ -5,7 +5,6 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "Inv_ItemPopUp.generated.h"
-
 /**
  * The item popup widget shows up when right-clicking on an item
  * in the inventory grid.
@@ -15,6 +14,10 @@ class USlider;
 class UTextBlock;
 class USizeBox;
 
+DECLARE_DYNAMIC_DELEGATE_TwoParams(FPopUpMenuSplit, int32, SplitAmount, int32, Index);
+DECLARE_DYNAMIC_DELEGATE_OneParam(FPopUpMenuDrop, int32, Index);
+DECLARE_DYNAMIC_DELEGATE_OneParam(FPopUpMenuConsume, int32, Index);
+
 UCLASS()
 class INVENTORY_API UInv_ItemPopUp : public UUserWidget
 {
@@ -22,7 +25,15 @@ class INVENTORY_API UInv_ItemPopUp : public UUserWidget
 public:
     virtual void NativeOnInitialized() override;
 
+    FPopUpMenuSplit OnSplit;
+    FPopUpMenuDrop OnDrop;
+    FPopUpMenuConsume OnConsume;
+
+    int32 GetSplitAmount() const;
+
 private:
+    int32 GridIndex{INDEX_NONE};
+
     UPROPERTY(meta = (BindWidget))
     TObjectPtr<UButton> Button_Split;
 
