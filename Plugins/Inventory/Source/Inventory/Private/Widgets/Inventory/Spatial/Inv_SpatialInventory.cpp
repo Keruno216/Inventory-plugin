@@ -14,6 +14,10 @@ void UInv_SpatialInventory::NativeOnInitialized()
 	Button_Consumables->OnClicked.AddDynamic(this, &ThisClass::ShowConsumables);
 	Button_Craftables->OnClicked.AddDynamic(this, &ThisClass::ShowCraftables);
 
+	Grid_Equippables->SetOwningCanvas(CanvasPanel);
+	Grid_Consumables->SetOwningCanvas(CanvasPanel);
+	Grid_Craftables->SetOwningCanvas(CanvasPanel);
+
 	ShowEquippables();
 }
 
@@ -28,7 +32,7 @@ FInv_SlotAvailabilityResult UInv_SpatialInventory::HasRoomForItem(UInv_ItemCompo
 	case EInv_ItemCategory::Craftable:
 		return Grid_Craftables->HasRoomForItem(ItemComponent);
 	default:
-		UE_LOG(LogTemp, Error, TEXT("ItemComponent doesn't have a valid Category!"))
+		UE_LOG(LogTemp, Error, TEXT("ItemComponent doesn't have a valid Category!"));
 		return FInv_SlotAvailabilityResult();
 	}
 }

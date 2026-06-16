@@ -5,15 +5,15 @@
 #include "CoreMinimal.h"
 #include "Components/WidgetSwitcher.h"
 #include "Widgets/Inventory/InventoryBase/Inv_InventoryBase.h"
-
 #include "Inv_SpatialInventory.generated.h"
 
 class UInv_InventoryGrid;
 class UWidgetSwitcher;
 class UButton;
+class UCanvasPanel;
 
 /**
- * 
+ *
  */
 UCLASS()
 class INVENTORY_API UInv_SpatialInventory : public UInv_InventoryBase
@@ -26,25 +26,29 @@ public:
 	virtual FInv_SlotAvailabilityResult HasRoomForItem(UInv_ItemComponent* ItemComponent) const override;
 
 private:
-	UPROPERTY(meta=(BindWidget))
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UCanvasPanel> CanvasPanel;
+
+	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UWidgetSwitcher> Switcher;
 
-	UPROPERTY(meta=(BindWidget))
+	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UInv_InventoryGrid> Grid_Equippables;
 
-	UPROPERTY(meta=(BindWidget))
+	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UInv_InventoryGrid> Grid_Consumables;
 
-	UPROPERTY(meta=(BindWidget))
+	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UInv_InventoryGrid> Grid_Craftables;
 
-	UPROPERTY(meta=(BindWidget))
+	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UButton> Button_Equippables;
 
-	UPROPERTY(meta=(BindWidget))
+	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UButton> Button_Consumables;
 
-	UPROPERTY(meta=(BindWidget))
+	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UButton> Button_Craftables;
 
 	UFUNCTION()

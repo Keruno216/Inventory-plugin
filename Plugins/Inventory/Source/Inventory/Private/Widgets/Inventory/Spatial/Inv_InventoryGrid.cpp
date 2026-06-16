@@ -18,6 +18,7 @@
 #include "Items/Manifest/Inv_ItemManifest.h"
 #include "Widgets/Inventory/HoverItem/Inv_HoverItem.h"
 #include "Widgets/Inventory/SlottedItems/Inv_SlottedItem.h"
+#include "Widgets/ItemPopUp/Inv_ItemPopUp.h"
 
 void UInv_InventoryGrid::NativeOnInitialized()
 {
@@ -760,6 +761,14 @@ void UInv_InventoryGrid::CreateItemPopUp(const int32 GridIndex)
 {
 	UInv_InventoryItem* RightClickedItem = GridSlots[GridIndex]->GetInventoryItem().Get();
 	if (!IsValid(RightClickedItem)) return;
+
+	ItemPopUp = CreateWidget<UInv_ItemPopUp>(this, ItemPopUpClass);
+
+	OwningCanvasPanel->AddChild(ItemPopUp);
+	UCanvasPanelSlot* CanvasSlot = UWidgetLayoutLibrary::SlotAsCanvasSlot(ItemPopUp);
+	const FVector2D MousePosition = UWidgetLayoutLibrary::GetMousePositionOnViewport(GetOwningPlayer());
+	CanvasSlot->SetPosition(MousePosition);
+	CanvasSlot->SetSize(ItemPopUp->GetBoxSize());
 }
 
 void UInv_InventoryGrid::ConstructGrid()
@@ -964,6 +973,11 @@ void UInv_InventoryGrid::HideCursor()
 		return;
 	}
 	GetOwningPlayer()->SetMouseCursorWidget(EMouseCursor::Default, GetHiddenCursorWidget());
+}
+
+void UInv_InventoryGrid::SetOwningCanvas(UCanvasPanel* OwningCanvas)
+{
+	OwningCanvasPanel = OwningCanvas;
 }
 
 void UInv_InventoryGrid::OnGridSlotHovered(int32 GridIndex, const FPointerEvent& MouseEvent)
