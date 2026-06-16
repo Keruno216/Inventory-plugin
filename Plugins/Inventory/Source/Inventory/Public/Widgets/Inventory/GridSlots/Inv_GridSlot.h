@@ -6,6 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "Inv_GridSlot.generated.h"
 
+class UInv_ItemPopUp;
 class UInv_InventoryItem;
 class UImage;
 
@@ -21,7 +22,7 @@ enum class EInv_GridSlotState : uint8
 };
 
 /**
- * 
+ *
  */
 UCLASS()
 class INVENTORY_API UInv_GridSlot : public UUserWidget
@@ -48,7 +49,8 @@ public:
 	void SetUpperLeftIndex(int32 Index) { UpperLeftIndex = Index; }
 	bool IsAvailable() const { return bAvailable; }
 	void SetAvailable(bool bIsAvailable) { bAvailable = bIsAvailable; }
-
+	void SetItemPopUp(UInv_ItemPopUp* PopUp);
+	UInv_ItemPopUp* GetItemPopUp() const;
 
 	void SetUnoccupiedTexture();
 	void SetOccupiedTexture();
@@ -60,27 +62,31 @@ public:
 	FGridSlotEvent GridSlotUnhovered;
 
 private:
-	int32 TileIndex{INDEX_NONE};
-	int32 StackCount{0};
-	int32 UpperLeftIndex{INDEX_NONE};
+	int32 StackCount{ 0 };
+	bool bAvailable{ true };
+	int32 TileIndex{ INDEX_NONE };
+	int32 UpperLeftIndex{ INDEX_NONE };
 	TWeakObjectPtr<UInv_InventoryItem> InventoryItem;
-	bool bAvailable{true};
+	TWeakObjectPtr<UInv_ItemPopUp> ItemPopUp;
 
-	UPROPERTY(meta=(BindWidget))
+	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UImage> Image_GridSlot;
 
 
-	UPROPERTY(EditAnywhere, Category="Inventory")
+	UPROPERTY(EditAnywhere, Category = "Inventory")
 	FSlateBrush Brush_Unoccupied;
 
-	UPROPERTY(EditAnywhere, Category="Inventory")
+	UPROPERTY(EditAnywhere, Category = "Inventory")
 	FSlateBrush Brush_Occupied;
 
-	UPROPERTY(EditAnywhere, Category="Inventory")
+	UPROPERTY(EditAnywhere, Category = "Inventory")
 	FSlateBrush Brush_Selected;
 
-	UPROPERTY(EditAnywhere, Category="Inventory")
+	UPROPERTY(EditAnywhere, Category = "Inventory")
 	FSlateBrush Brush_GrayedOut;
 
 	EInv_GridSlotState GridSlotState;
+
+	UFUNCTION()
+	void OnItemPopUpDestruct(UUserWidget* Menu);
 };
