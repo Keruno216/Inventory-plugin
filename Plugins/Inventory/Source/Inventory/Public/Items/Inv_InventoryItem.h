@@ -8,7 +8,7 @@
 #include "Inv_InventoryItem.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
 class INVENTORY_API UInv_InventoryItem : public UObject
@@ -23,15 +23,16 @@ public:
 	const FInv_ItemManifest& GetItemManifest() const { return ItemManifest.Get<FInv_ItemManifest>(); }
 	FInv_ItemManifest& GetItemManifestMutable() { return ItemManifest.GetMutable<FInv_ItemManifest>(); }
 	bool IsStackable() const;
+	bool IsConsumable() const;
 	int32 GetTotalStackCount() const { return TotalStackCount; }
 	void SetTotalStackCount(int32 Count) { TotalStackCount = Count; }
 
 private:
-	UPROPERTY(VisibleAnywhere, meta=(BaseStruct="/Script/Inventory.Inv_ItemManifest"), Replicated)
+	UPROPERTY(VisibleAnywhere, meta = (BaseStruct = "/Script/Inventory.Inv_ItemManifest"), Replicated)
 	FInstancedStruct ItemManifest;
 
 	UPROPERTY(Replicated)
-	int32 TotalStackCount{0};
+	int32 TotalStackCount{ 0 };
 };
 
 template <typename FragmentType>
