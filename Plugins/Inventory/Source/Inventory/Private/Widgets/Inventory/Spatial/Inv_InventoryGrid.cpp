@@ -202,7 +202,7 @@ void UInv_InventoryGrid::ChangeHoverType(const int32 Index, const FIntPoint& Dim
 FIntPoint UInv_InventoryGrid::CalculateStartingCoordinate(const FIntPoint& Coordinate, const FIntPoint& Dimensions, const EInv_TileQuadrant Quadrant) const
 {
 	const int32 HasEvenWidth = Dimensions.X % 2 == 0 ? 1 : 0;
-	const int32 HasEvenHight = Dimensions.Y % 2 == 0 ? 1 : 0;
+	const int32 HasEvenHeight = Dimensions.Y % 2 == 0 ? 1 : 0;
 
 	FIntPoint StartingCoord;
 	switch (Quadrant)
@@ -217,11 +217,11 @@ FIntPoint UInv_InventoryGrid::CalculateStartingCoordinate(const FIntPoint& Coord
 		break;
 	case EInv_TileQuadrant::BottomLeft:
 		StartingCoord.X = Coordinate.X - FMath::FloorToInt(0.5f * Dimensions.X);
-		StartingCoord.Y = Coordinate.Y - FMath::FloorToInt(0.5f * Dimensions.Y) + HasEvenHight;
+		StartingCoord.Y = Coordinate.Y - FMath::FloorToInt(0.5f * Dimensions.Y) + HasEvenHeight;
 		break;
 	case EInv_TileQuadrant::BottomRight:
 		StartingCoord.X = Coordinate.X - FMath::FloorToInt(0.5f * Dimensions.X) + HasEvenWidth;
-		StartingCoord.Y = Coordinate.Y - FMath::FloorToInt(0.5f * Dimensions.Y) + HasEvenHight;
+		StartingCoord.Y = Coordinate.Y - FMath::FloorToInt(0.5f * Dimensions.Y) + HasEvenHeight;
 		break;
 	default:
 		UE_LOG(LogInventory, Error, TEXT("Invalid Quadrant!"));
@@ -740,7 +740,7 @@ void UInv_InventoryGrid::OnSlottedItemClicked(int32 GridIndex, const FPointerEve
 			return;
 		}
 
-		// Should we fill in the Stacks of the clicked Item? (And not consume the Hover Item?
+		// Should we fill in the Stacks of the clicked Item? (And not consume the Hover Item?)
 		if (ShouldFillInStack(RoomInClickedSlot, HoveredStackCount))
 		{
 			FillInStack(RoomInClickedSlot, HoveredStackCount - RoomInClickedSlot, GridIndex);
@@ -774,7 +774,7 @@ void UInv_InventoryGrid::CreateItemPopUp(const int32 GridIndex)
 	CanvasSlot->SetPosition(MousePosition - ItemPopUp->GetBoxSize() / 5);
 	CanvasSlot->SetSize(ItemPopUp->GetBoxSize());
 
-	const int32 SliderMax = GridSlots[GridIndex]->GetStackCount();
+	const int32 SliderMax = GridSlots[GridIndex]->GetStackCount()-1;
 	if (RightClickedItem->IsStackable() && SliderMax > 0)
 	{
 		ItemPopUp->OnSplit.BindDynamic(this, &ThisClass::OnPopUpMenuSplit);
@@ -914,14 +914,14 @@ void UInv_InventoryGrid::SwapWithHoverItem(UInv_InventoryItem* ClickedInventoryI
 		return;
 	}
 	UInv_InventoryItem* TempInventoryItem = HoverItem->GetInventoryItem();
-	const int32 TeampStackCount = HoverItem->GetStackCount();
+	const int32 TempStackCount = HoverItem->GetStackCount();
 	const bool bTempIsStackable = HoverItem->IsStackable();
 
 	// Keep the same previous GridIndex.
 	AssignHoverItem(ClickedInventoryItem, GridIndex, HoverItem->GetPreviousGridIndex());
 	RemoveItemFromGrid(ClickedInventoryItem, GridIndex);
-	AddItemAtIndex(TempInventoryItem, ItemDropIndex, bTempIsStackable, TeampStackCount);
-	UpdateGridSlots(TempInventoryItem, ItemDropIndex, bTempIsStackable, TeampStackCount);
+	AddItemAtIndex(TempInventoryItem, ItemDropIndex, bTempIsStackable, TempStackCount);
+	UpdateGridSlots(TempInventoryItem, ItemDropIndex, bTempIsStackable, TempStackCount);
 }
 
 bool UInv_InventoryGrid::ShouldSwapStackCounts(const int32 RoomInClickedSlot, const int32 HoveredStackCount, const int32 MaxStackSize) const
@@ -1034,6 +1034,20 @@ void UInv_InventoryGrid::OnGridSlotUnhovered(int32 GridIndex, const FPointerEven
 
 void UInv_InventoryGrid::OnPopUpMenuSplit(int32 SplitAmount, int32 Index)
 {
+	UInv_InventoryItem* RightClickedItem=GridSlots[Index]->GetInventoryItem().Get();
+	if (!IsValid(RightClickedItem)	) return;
+	if (!RightClickedItem->IsStackable()) return;
+	
+	const int32 UpperLeftIndex = GridSlots[Index]->GetUpperLeftIndex();
+	UInv_GridSlot* UpperLeftGridSlot = GridSlots[UpperLeftIndex];
+	const int32 StackCount=UpperLeftGridSlot->GetStackCount();
+	const int32 NewStackCount=StackCount-SplitAmount;
+	
+	UpperLeftGridSlot->SetStackCount(NewStackCount);
+	SlottedItems.FindChecked(UpperLeftIndex)->UpdateStackCount(NewStackCount);
+	
+	AssignHoverItem(RightClickedItem, UpperLeftIndex, UpperLeftIndex);
+	HoverItem->UpdateStackCount(SplitAmount);
 }
 
 void UInv_InventoryGrid::OnPopUpMenuDrop(int32 Index)
