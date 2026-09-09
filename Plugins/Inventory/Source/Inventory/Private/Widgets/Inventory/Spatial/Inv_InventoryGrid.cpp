@@ -763,8 +763,6 @@ void UInv_InventoryGrid::CreateItemPopUp(const int32 GridIndex)
 	if (!IsValid(RightClickedItem)) return;
 	if (IsValid(GridSlots[GridIndex]->GetItemPopUp())) return;
 
-
-
 	ItemPopUp = CreateWidget<UInv_ItemPopUp>(this, ItemPopUpClass);
 	GridSlots[GridIndex]->SetItemPopUp(ItemPopUp);
 
@@ -794,6 +792,16 @@ void UInv_InventoryGrid::CreateItemPopUp(const int32 GridIndex)
 	else {
 		ItemPopUp->CollapseConsumeButton();
 	}
+}
+
+void UInv_InventoryGrid::DropItem()
+{
+	if (!IsValid(HoverItem)) return;
+	if (!IsValid(HoverItem->GetInventoryItem())) return;
+	
+	// TODO: Tell the server to actually drop the item
+	
+	ClearHoverItem();
 }
 
 void UInv_InventoryGrid::ConstructGrid()
@@ -1052,6 +1060,11 @@ void UInv_InventoryGrid::OnPopUpMenuSplit(int32 SplitAmount, int32 Index)
 
 void UInv_InventoryGrid::OnPopUpMenuDrop(int32 Index)
 {
+	UInv_InventoryItem* RightClickedItem=GridSlots[Index]->GetInventoryItem().Get();
+	if (!IsValid(RightClickedItem)) return;
+
+	PickUp(RightClickedItem, Index);
+	DropItem();
 }
 
 void UInv_InventoryGrid::OnPopUpMenuConsume(int32 Index)
