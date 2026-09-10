@@ -57,37 +57,37 @@ private:
 	bool MatchesCategory(const UInv_InventoryItem* Item);
 	FVector2D GetDrawSize(const FInv_GridFragment* GridFragment) const;
 	void SetSlottedItemImage(const UInv_SlottedItem* SlottedItem, const FInv_GridFragment* GridFragment,
-		const FInv_ImageFragment* ImageFragment) const;
+	                         const FInv_ImageFragment* ImageFragment) const;
 	void AddItemAtIndex(UInv_InventoryItem* Item, const int32 Index, const bool bStackable, const int32 StackAmount);
 	UInv_SlottedItem* CreateSlottedItem(UInv_InventoryItem* Item,
-		const bool bStackable,
-		const int32 StackAmount,
-		const FInv_GridFragment* GridFragment,
-		const FInv_ImageFragment* ImageFragment,
-		const int32 Index);
+	                                    const bool bStackable,
+	                                    const int32 StackAmount,
+	                                    const FInv_GridFragment* GridFragment,
+	                                    const FInv_ImageFragment* ImageFragment,
+	                                    const int32 Index);
 	void AddSlottedItemToCanvas(int32 Index, const FInv_GridFragment* GridFragment,
-		UInv_SlottedItem* SlottedItem) const;
+	                            UInv_SlottedItem* SlottedItem) const;
 	void UpdateGridSlots(UInv_InventoryItem* NewItem, const int32 Index, bool bStackableItem, const int32 StackAmount);
 	bool IsIndexClaimed(const TSet<int32>& CheckedIndices, const int32 Index) const;
 	bool HasRoomAtIndex(const UInv_GridSlot* GridSlot,
-		const FIntPoint& Dimensions,
-		const TSet<int32>& CheckedIndices,
-		TSet<int32>& OutTentativelyClaimed,
-		const FGameplayTag& ItemType,
-		const int32 MaxStackSize);
+	                    const FIntPoint& Dimensions,
+	                    const TSet<int32>& CheckedIndices,
+	                    TSet<int32>& OutTentativelyClaimed,
+	                    const FGameplayTag& ItemType,
+	                    const int32 MaxStackSize);
 	FIntPoint GetItemDimensions(const FInv_ItemManifest& Manifest) const;
 	bool CheckSlotConstraints(const UInv_GridSlot* GridSlot,
-		const UInv_GridSlot* SubGridSlot,
-		const TSet<int32>& CheckedIndices,
-		TSet<int32>& OutTentativelyClaimed,
-		const FGameplayTag& ItemType,
-		const int32 MaxStackSize) const;
+	                          const UInv_GridSlot* SubGridSlot,
+	                          const TSet<int32>& CheckedIndices,
+	                          TSet<int32>& OutTentativelyClaimed,
+	                          const FGameplayTag& ItemType,
+	                          const int32 MaxStackSize) const;
 	bool HasValidItem(const UInv_GridSlot* GridSlot) const;
 	bool IsUpperLeftSlot(const UInv_GridSlot* GridSlot, const UInv_GridSlot* SubGridSlot) const;
 	bool DoesItemTypeMatch(const UInv_InventoryItem* SubItem, const FGameplayTag& ItemType) const;
 	bool IsInGridBounds(const int32 StartIndex, const FIntPoint& ItemDimensions) const;
 	int32 DetermineFillAmountForSlot(const bool bStackable, const int32 MaxStackSize, const int32 AmountToFill,
-		const UInv_GridSlot* GridSlot) const;
+	                                 const UInv_GridSlot* GridSlot) const;
 	int32 GetStackAmount(const UInv_GridSlot* GridSlot) const;
 	bool IsRightClick(const FPointerEvent& MouseEvent) const;
 	bool IsLeftClick(const FPointerEvent& MouseEvent) const;
@@ -99,7 +99,8 @@ private:
 	FIntPoint CalculateHoveredCoordinated(const FVector2D& CanvasPosition, const FVector2D& MousePosition) const;
 	EInv_TileQuadrant CalculateTileQuadrant(const FVector2D& CanvasPosition, const FVector2D& MousePosition) const;
 	void OnTileParametersUpdated(const FInv_TileParameters& Parameters);
-	FIntPoint CalculateStartingCoordinate(const FIntPoint& Coordinate, const FIntPoint& Dimensions, const EInv_TileQuadrant Quadrant) const;
+	FIntPoint CalculateStartingCoordinate(const FIntPoint& Coordinate, const FIntPoint& Dimensions,
+	                                      const EInv_TileQuadrant Quadrant) const;
 	FInv_SpaceQueryResult CheckHoverPosition(const FIntPoint& Position, const FIntPoint& Dimensions);
 	bool CursorExitedCanvas(const FVector2D& BoundaryPos, const FVector2D& BoundarySize, const FVector2D& Location);
 	void HighlightSlots(const int32 Index, const FIntPoint& Dimensions);
@@ -111,7 +112,8 @@ private:
 	UUserWidget* GetHiddenCursorWidget();
 	bool IsSameStackable(const UInv_InventoryItem* ClickedInventoryItem) const;
 	void SwapWithHoverItem(UInv_InventoryItem* ClickedInventoryItem, const int32 GridIndex);
-	bool ShouldSwapStackCounts(const int32 RoomInClickedSlot, const int32 HoveredStackCount, const int32 MaxStackSize) const;
+	bool ShouldSwapStackCounts(const int32 RoomInClickedSlot, const int32 HoveredStackCount,
+	                           const int32 MaxStackSize) const;
 	void SwapStackCounts(const int32 ClickedStackCount, const int32 HoveredStackCount, const int32 Index);
 	bool ShouldConsumeHoverItemStacks(const int32 HoveredStackCount, const int32 RoomInClickedSlot) const;
 	void ConsumeHoverItemStacks(const int32 ClickedStackCount, const int32 HoveredStackCount, const int32 Index);
@@ -199,7 +201,7 @@ private:
 	FInv_TileParameters LastTileParameters;
 
 	// Index where an item would be placed if we click on the grid at a valid location
-	int32 ItemDropIndex{ INDEX_NONE };
+	int32 ItemDropIndex{INDEX_NONE};
 	FInv_SpaceQueryResult CurrentQueryResult;
 	bool bMouseWithinCanvas = true;
 	bool bLastMouseWithinCanvas = true;
