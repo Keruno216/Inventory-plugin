@@ -71,10 +71,10 @@ private:
 	float DropSpawnAngleMax = 85.f;
 
 	UPROPERTY(EditAnywhere, Category="Inventory")
-	float DropSpawnDistanceMin = 10.f;
+	float DropSpawnDistanceMin = 40.f;
 
 	UPROPERTY(EditAnywhere, Category="Inventory")
-	float DropSpawnDistanceMax = 50.f;
+	float DropSpawnDistanceMax = 100.f;
 
 	UPROPERTY(EditAnywhere, Category="Inventory")
 	float RelativeSpawnElevation = 20.f;
