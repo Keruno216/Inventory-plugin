@@ -829,7 +829,7 @@ void UInv_InventoryGrid::DropItem()
 		return;
 	}
 
-	// TODO: Tell the server to actually drop the item
+	InventoryComponent->Server_DropItem(HoverItem->GetInventoryItem(), HoverItem->GetStackCount());
 
 	ClearHoverItem();
 }

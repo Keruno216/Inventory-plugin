@@ -5,11 +5,10 @@
 
 #include "Net/UnrealNetwork.h"
 
-
 UInv_ItemComponent::UInv_ItemComponent()
 {
 	PrimaryComponentTick.bCanEverTick = false;
-
+	SetIsReplicatedByDefault(true);
 	PickupMessage = FString("E - Pick up");
 }
 

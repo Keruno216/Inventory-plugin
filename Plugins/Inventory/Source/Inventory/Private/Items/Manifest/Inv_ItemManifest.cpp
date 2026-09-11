@@ -14,13 +14,13 @@ UInv_InventoryItem* FInv_ItemManifest::Manifest(UObject* NewOuter)
 void FInv_ItemManifest::SpawnPickupActor(const UObject* WorldContextObject, const FVector& SpawnLocation,
                                          const FRotator& SpawnRotation)
 {
-	if (PickupActorClass || !IsValid(WorldContextObject))
+	if (!PickupActorClass || !IsValid(WorldContextObject))
 	{
 		return;
 	}
 	AActor* SpawnedActor = WorldContextObject->GetWorld()->SpawnActor<AActor>(
 		PickupActorClass, SpawnLocation, SpawnRotation);
-	if (IsValid(SpawnedActor))
+	if (!IsValid(SpawnedActor))
 	{
 		return;
 	}
