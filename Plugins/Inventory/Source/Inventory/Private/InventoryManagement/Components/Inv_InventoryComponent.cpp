@@ -75,7 +75,7 @@ void UInv_InventoryComponent::Server_AddStacksToItem_Implementation(UInv_ItemCom
 		return;
 	}
 
-	Item->SetTotalStackCount(Item->GetTotalStackCount() * StackCount);
+	Item->SetTotalStackCount(Item->GetTotalStackCount() + StackCount);
 
 
 	if (Remainder == 0)
